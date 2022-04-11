@@ -10,6 +10,7 @@ H  = 100; % Depth of the water column
 dz = 0.5;
 dr = 1;
 rmax = 3000;
+r    = dr : dr : rmax;
 c    = 1500; % Speed of sound in water coulmn
 rho  = 1.0;  % Density of water coulmn
 
@@ -29,6 +30,7 @@ kr = linspace(0, 2 * k0, M);
 eps= 3 * k0 / pi / (M - 1) / log10(exp(1.0));
 kr = kr - 1i * eps;
 
+%------------------------------Depth equation------------------------------
 psi = zeros(length(z),M);
 for m = 1 : M
 
@@ -56,9 +58,6 @@ for m = 1 : M
     
     U(2*N+2, N    :2*N-2) = Lb(1:N-1);
     U(2*N+2, 2*N+1:2*N+2) = Lb(N:N+1);
-    
-    
-    
     
     %sound pressure is continuous
     U(2*N, 1    :N-1  ) = (-1.0).^(0:N-2);
@@ -90,7 +89,9 @@ for m = 1 : M
 
 end
 
-r   = dr : dr : rmax;
+Plot(kr, psi(37,:));
+
+%--------------------------Wavenumber Integration--------------------------
 phi = zeros(length(z),length(r));
 
 for ir = 1 : length(r)
@@ -103,24 +104,5 @@ end
 phi0 = exp(1i * k0) / 4 / pi; 
 tl   = - 20 * log10(abs(phi / phi0));
 
-%-------------------plot------------------------
-% figure; hold on;
-% plot(kr, abs(psi(37,:)), 'r-',  'LineWidth', 3);
-% plot(kr, abs(psi(47,:)), 'b--', 'LineWidth', 2);
-% xlabel('kr (1/m)'); ylabel('Magnitude');
-% legend('z=36 m','z=46 m','box','off');
-% set(gca,'Position',[0.1,0.15,0.8,0.75]);
-% set(gcf,'Position',[400,200,1200,600]);
-% set(gca,'FontSize',16,'LineWidth',2,'box','on');
-% axis([0 0.2 0 100]);
-
-
-pcolor(r, z, tl);
-colormap(flipud(jet));caxis([40 70]); 
-shading flat; view(0, -90);
-xlabel('Range (m)'); ylabel('Depth (m)');
-colorbar('YDir','Reverse','FontSize', 16);
-set(gca,'Position',[0.1,0.15,0.75,0.75],'FontSize',16);
-set(gcf,'Position',[100,100,800,800]); 
-
+Pcolor(r,z,tl);
 toc;
