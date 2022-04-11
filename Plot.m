@@ -1,6 +1,6 @@
 function Plot(kr, psi)
 
-    figure; hold on;
+    figure; 
     plot(real(kr), abs(psi), 'r-',  'LineWidth', 3);
     xlabel('kr (1/m)'); ylabel('Magnitude');
     legend('z=36 m','box','off');

@@ -1,4 +1,4 @@
-function D  = DerivationMatrix(n)
+function D  = ChebDerivationMatrix(n)
 
     D = zeros(n, n);
     

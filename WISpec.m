@@ -2,107 +2,45 @@ clc
 clear
 close all
 tic;
-N  = 30;  % Number of truncated order
-M  = 3000;% Number of discrete wavenumber
-f  = 20;  % Frequency of sound source
-zs = 36;  % Depth of sound source
-H  = 100; % Depth of the water column
-dz = 0.5;
-dr = 1;
-rmax = 3000;
-r    = dr : dr : rmax;
-c    = 1500; % Speed of sound in water coulmn
-rho  = 1.0;  % Density of water coulmn
 
-% Differentiation matrix and Chebyshev-Gauss-Lobatto points
-D   = DerivationMatrix(N+1);
-x   = cos((0 : N) * pi / N)';
+[casename, Layers, Ns, kmax, M, freq, zs, dz, rmax, dr, tlmin, tlmax,...
+ dep, c, rho, alpha, Lb, ch, rhoh, alphah] = ReadEnvParameter('input_pekeris.txt');
 
-z1  = 0  : dz : zs;
-z2  = zs : dz : H;
-z   = 0  : dz : H;
+%在声源深度上增加一个虚拟的界面
+[dep, c, rho, alpha, Layers, Ns, R] = VirtualInterface(dep, c, rho, alpha, zs, Layers, Ns);
 
-x1  = -2 / zs * z1 + 1;
-x2  = -2 /(H - zs) * z2 + (H + zs) / (H - zs);
+[c, rho, alpha] = ChebInterpolation(dep, c, rho, alpha, Layers, Ns);
 
-k0 = 2 * pi * f / c;
-kr = linspace(0, 2 * k0, M);
+[r, k, kh] = ChebInitialization(Layers, freq, rmax, dr, c, alpha, ch, alphah);
+
+k0 = max(real(k{1}));
+kr = linspace(0, kmax * k0, M);
 eps= 3 * k0 / pi / (M - 1) / log10(exp(1.0));
 kr = kr - 1i * eps;
-
 %------------------------------Depth equation------------------------------
+z = 0 : dz : dep{end}(end);
 psi = zeros(length(z),M);
 for m = 1 : M
 
-    A = 4.0 / zs ^ 2 * D * D + ...
-        ConvolutionMatrix(ChebTransFFT(N,(k0^2-kr(m)^2)*ones(N+1,1)));
+    Vec = ChebDepthSolution(Lb, Ns, Layers, dep, k, rho, kh, rhoh, kr(m), R);
 
-    B = 4.0 / (H - zs) ^ 2 * D * D + ...
-        ConvolutionMatrix(ChebTransFFT(N,(k0^2-kr(m)^2)*ones(N+1,1)));
-    
-    U = zeros(2*N+2);
-    
-    U(1 :N-1,  1    :N-1)   = A(1:N-1, 1:N-1);
-    U(1 :N-1,  2*N-1:2*N)   = A(1:N-1, N:N+1);
-    U(N:2*N-2, N    :2*N-2) = B(1:N-1, 1:N-1);
-    U(N:2*N-2, 2*N+1:2*N+2) = B(1:N-1, N:N+1);
-
-    %upper boundary
-    U(2*N-1, 1    :N-1) = 1.0;
-    U(2*N-1, 2*N-1:2*N) = 1.0;
-    
-    %lower boundary
-    %perfectly free/rigid
-    Lb = (-1.0) .^ (0 : N);% * D;
-    Lb = Lb - Lb * D * 2.0 / (H - zs) * 1.5 / sqrt(kr(m)^2 - (2 * pi * f / 2000)^2);
-    
-    U(2*N+2, N    :2*N-2) = Lb(1:N-1);
-    U(2*N+2, 2*N+1:2*N+2) = Lb(N:N+1);
-    
-    %sound pressure is continuous
-    U(2*N, 1    :N-1  ) = (-1.0).^(0:N-2);
-    U(2*N, N    :2*N-2) =  -1.0;
-    U(2*N, 2*N-1:2*N  ) = (-1.0).^(N-1:N);
-    U(2*N, 2*N+1:2*N+2) =  -1.0;
-    
-    %displacement potential function is continuous 
-    Pu = -2 / zs * ((-1.0).^(0 : N)) * D;
-    Pd =  2 /(H - zs) * ones(1, N+1) * D;
-
-    %second interface boundary
-    U(2*N+1, 1    :N-1  ) = Pu(1 : N-1);
-    U(2*N+1, N    :2*N-2) = Pd(1 : N-1);
-    U(2*N+1, 2*N-1:2*N  ) = Pu(N : N+1);
-    U(2*N+1, 2*N+1:2*N+2) = Pd(N : N+1);
-    
-    R = zeros(2*N+2,1);
-    R(2*N+1) = - 0.5 / pi;
-    
-    vec  = U \ R;
-    vec1 = [vec(1 :   N-1); vec(2*N-1:2*N  )];
-    vec2 = [vec(N : 2*N-2); vec(2*N+1:2*N+2)];
-    
-    psi1 = InvChebTrans(vec1, x1);
-    psi2 = InvChebTrans(vec2, x2);
-    
-    psi(:, m) = [psi1(1:end-1); psi2];
+    psi(:, m) = KernelFunc(Vec, dz, dep, Layers);
 
 end
 
-Plot(kr, psi(37,:));
-
+Plot(kr, psi(73,:));
+toc;
 %--------------------------Wavenumber Integration--------------------------
 phi = zeros(length(z),length(r));
-
 for ir = 1 : length(r)
     for iz = 1 : length(z)
-        kenel = psi(iz, :) .* besselj(0, real(kr) * r(ir)) .* real(kr);
-        phi(iz, ir) = trapz(kr, kenel);
+        kernel = psi(iz, :) .* besselj(0, real(kr) * r(ir)) .* real(kr);
+        phi(iz, ir) = trapz(kr, kernel);
     end
 end
 
 phi0 = exp(1i * k0) / 4 / pi; 
 tl   = - 20 * log10(abs(phi / phi0));
 
-Pcolor(r,z,tl);
+Pcolor(r,z,tl,casename,tlmin,tlmax);
 toc;
