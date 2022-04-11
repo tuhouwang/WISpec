@@ -7,6 +7,5 @@ function Plot(kr, psi)
     set(gca,'Position',[0.1,0.15,0.8,0.75]);
     set(gcf,'Position',[400,200,1200,600]);
     set(gca,'FontSize',16,'LineWidth',2,'box','on');
-%     axis([0 0.2 0 100]);
 
 end
