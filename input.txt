@@ -14,4 +14,4 @@ Ideal fluid waveguide
 2                                              
 0	                1500	1.0   	0
 100              	1500	1.0   	0
-R
+V

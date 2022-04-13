@@ -4,7 +4,7 @@ close all
 tic;
 
 [casename, Layers, Ns, kmax, M, freq, zs, dz, rmax, dr, tlmin, tlmax,...
- dep, c, rho, alpha, Lb, ch, rhoh, alphah] = ReadEnvParameter('input_pekeris.txt');
+ dep, c, rho, alpha, Lb, ch, rhoh, alphah] = ReadEnvParameter('input.txt');
 
 %在声源深度上增加一个虚拟的界面
 [dep, c, rho, alpha, Layers, Ns, R] = VirtualInterface(dep, c, rho, alpha, zs, Layers, Ns);
@@ -15,7 +15,7 @@ tic;
 
 k0 = max(real(k{1}));
 kr = linspace(0, kmax * k0, M);
-eps= 3 * k0 / pi / (M - 1) / log10(exp(1.0));
+eps= 1.5 * kmax * k0 / pi / (M - 1) / log10(exp(1.0));
 kr = kr - 1i * eps;
 %------------------------------Depth equation------------------------------
 z = 0 : dz : dep{end}(end);

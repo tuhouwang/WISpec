@@ -7,7 +7,7 @@ function [dep, c, rho, alpha, Layers, Ns, R] = VirtualInterface(dep, c, rho, alp
     end
     
     for m = 1 : length(dep{i})
-         if(zs > dep{i}(m) && zs < dep{i}(m+1) )  
+         if(zs >= dep{i}(m) && zs < dep{i}(m+1) )  
              break;
          end
     end
@@ -17,37 +17,37 @@ function [dep, c, rho, alpha, Layers, Ns, R] = VirtualInterface(dep, c, rho, alp
     c1     = cell(Layers+1,1); 
     alpha1 = cell(Layers+1,1);
     
-    if(i == 1)
-        dep1  (i) = {[dep{i}(1:m);zs]};
-        rho1  (i) = {interp1(dep{i},rho{i},  dep1{i},'linear','extrap')};
-        c1    (i) = {interp1(dep{i},c{i},    dep1{i},'linear','extrap')};
-        alpha1(i) = {interp1(dep{i},alpha{i},dep1{i},'linear','extrap')};
-        dep1  (i+1) = {[zs;dep{i}(m+1:end)]};
-        rho1  (i+1) = {interp1(dep{i},rho{i},  dep1{i+1},'linear','extrap')};
-        c1    (i+1) = {interp1(dep{i},c{i},    dep1{i+1},'linear','extrap')};
-        alpha1(i+1) = {interp1(dep{i},alpha{i},dep1{i+1},'linear','extrap')};
-    else
+    if(i ~= 1)
         dep1  (1:i-1) = dep  (1:i-1);
         rho1  (1:i-1) = rho  (1:i-1);
         c1    (1:i-1) = c    (1:i-1);
-        alpha1(1:i-1) = alpha(1:i-1);
-        
-        dep1  (i) = {[dep{i}(1:m);zs]};
-        rho1  (i) = {interp1(dep{i},rho{i},  dep1{i},'linear','extrap')};
-        c1    (i) = {interp1(dep{i},c{i},    dep1{i},'linear','extrap')};
-        alpha1(i) = {interp1(dep{i},alpha{i},dep1{i},'linear','extrap')};
-        dep1  (i+1) = {[zs;dep{i}(m+1:end)]};
-        rho1  (i+1) = {interp1(dep{i},rho{i},  dep1{i+1},'linear','extrap')};
-        c1    (i+1) = {interp1(dep{i},c{i},    dep1{i+1},'linear','extrap')};
-        alpha1(i+1) = {interp1(dep{i},alpha{i},dep1{i+1},'linear','extrap')};
-        
+        alpha1(1:i-1) = alpha(1:i-1);     
     end
+    
+    if(zs == dep{i}(m))
+       dep1  (i) = {dep{i}(1:m)};
+       rho1  (i) = {rho{i}(1:m)};
+       c1    (i) = {c{i}(1:m)};
+       alpha1(i) = {alpha{i}(1:m)};
+       dep1  (i+1) = {dep{i}(m:end)};
+       rho1  (i+1) = {rho{i}(m:end)};
+       c1    (i+1) = {c{i}(m:end)};
+       alpha1(i+1) = {alpha{i}(m:end)};
+    else
+       dep1  (i) = {[dep{i}(1:m);zs]};
+       rho1  (i) = {interp1(dep{i},rho{i},  dep1{i},'linear','extrap')};
+       c1    (i) = {interp1(dep{i},c{i},    dep1{i},'linear','extrap')};
+       alpha1(i) = {interp1(dep{i},alpha{i},dep1{i},'linear','extrap')};
+       dep1  (i+1) = {[zs;dep{i}(m+1:end)]};
+       rho1  (i+1) = {interp1(dep{i},rho{i},  dep1{i+1},'linear','extrap')};
+       c1    (i+1) = {interp1(dep{i},c{i},    dep1{i+1},'linear','extrap')};
+       alpha1(i+1) = {interp1(dep{i},alpha{i},dep1{i+1},'linear','extrap')};
+    end  
     
     dep1  (i+2:end) = dep  (i+1:end);
     rho1  (i+2:end) = rho  (i+1:end);
     c1    (i+2:end) = c    (i+1:end);
     alpha1(i+2:end) = alpha(i+1:end);
-
     
     dep    = dep1;
     c      = c1;

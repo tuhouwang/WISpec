@@ -54,8 +54,8 @@ function Vec = ChebDepthSolution(Lb, Ns, Layers, dep, k, rho, kh, rhoh, kr, R)
     if(Lb == 'R')        
         Low = Low * D;%这里的D是最后一个D，恰好没被覆盖
     elseif(Lb == 'A')
-        Low = Low - Low * D * 2.0 / (dep{end}(end) - dep{end}(1)) * ...
-              rhoh / rho{end}(end) / sqrt(kr ^ 2 - kh ^ 2);
+        Low = rho{end}(end) * sqrt(kr ^ 2 - kh ^ 2) * Low - ... 
+              Low * D * 2.0 / (dep{end}(end) - dep{end}(1)) * rhoh;
     end
     
     U(end, sum(Ns-1)-Ns(end)+2:sum(Ns-1)) = Low(1:Ns(end)-1);
