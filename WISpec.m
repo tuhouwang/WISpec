@@ -1,10 +1,10 @@
 clc
 clear
-close all
+% close all
 tic;
 
 [casename, Layers, Ns, kmax, M, freq, zs, dz, rmax, dr, tlmin, tlmax,...
- dep, c, rho, alpha, Lb, ch, rhoh, alphah] = ReadEnvParameter('input.txt');
+ dep, c, rho, alpha, Lb, ch, rhoh, alphah] = ReadEnvParameter('input_munk.txt');
 
 %在声源深度上增加一个虚拟的界面
 [dep, c, rho, alpha, Layers, Ns, R] = VirtualInterface(dep, c, rho, alpha, zs, Layers, Ns);
@@ -18,8 +18,8 @@ kr = linspace(0, kmax * k0, M);
 eps= 1.5 * kmax * k0 / pi / (M - 1) / log10(exp(1.0));
 kr = kr - 1i * eps;
 %------------------------------Depth equation------------------------------
-z = 0 : dz : dep{end}(end);
-psi = zeros(length(z),M);
+z   = 0 : dz : dep{end}(end);
+psi = zeros(length(z), M);
 for m = 1 : M
 
     Vec = ChebDepthSolution(Lb, Ns, Layers, dep, k, rho, kh, rhoh, kr(m), R);
@@ -28,19 +28,23 @@ for m = 1 : M
 
 end
 
-Plot(kr, psi(73,:));
+% Plot(kr, psi(73,:));
 toc;
 %--------------------------Wavenumber Integration--------------------------
 phi = zeros(length(z),length(r));
 for ir = 1 : length(r)
     for iz = 1 : length(z)
-        kernel = psi(iz, :) .* besselj(0, real(kr) * r(ir)) .* real(kr);
+        kernel = psi(iz, :) .* besselj(0, kr * r(ir)) .* real(kr);
         phi(iz, ir) = trapz(kr, kernel);
     end
 end
 
-phi0 = exp(1i * k0) / 4 / pi; 
-tl   = - 20 * log10(abs(phi / phi0));
+%由位移势函数求声压
+
+phi0 = exp(1i * k0) / 4 / pi;
+tl   = - 20 * log10(abs(phi / phi0 ));
 
 Pcolor(r,z,tl,casename,tlmin,tlmax);
+
+% Plot(r, tl(73,:));
 toc;

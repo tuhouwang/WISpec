@@ -57,6 +57,6 @@ function [dep, c, rho, alpha, Layers, Ns, R] = VirtualInterface(dep, c, rho, alp
     Ns     = [Ns(1:i);Ns(i);Ns(i+1:end)];
     
     R     = zeros(sum(Ns+1), 1);
-    R(sum(Ns-1)+2*i) = - 0.5 / pi;
+    R(sum(Ns-1)+2*i) = 0.5 / pi;
 
 end
