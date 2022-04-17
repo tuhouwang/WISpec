@@ -3,8 +3,8 @@ clear
 % close all
 tic;
 
-[casename, Layers, Ns, kmax, M, freq, zs, dz, rmax, dr, tlmin, tlmax,...
- dep, c, rho, alpha, Lb, ch, rhoh, alphah] = ReadEnvParameter('input_pekeris.txt');
+[casename, Src, Layers, Ns, kmax, M, freq, zs, dz, rmax, dr, tlmin, tlmax,...
+ dep, c, rho, alpha, Lb, ch, rhoh, alphah] = ReadEnvParameter('input_line_pekeris.txt');
 
 %Add a virtual interface to the depth of the sound source
 [dep, c, rho, alpha, Layers, Ns, R] = VirtualInterface(dep, c, rho, alpha, zs, Layers, Ns);
@@ -33,20 +33,30 @@ end
 % Plot(kr, psi(73,:));
 toc;
 %--------------------------Wavenumber Integration--------------------------
-%Ponit source
 phi = zeros(length(z),length(r));
-for ir = 1 : length(r)
-    r(ir)
-    for iz = 1 : length(z)
-        kernel = psi(iz, :) .* besselj(0, kr * r(ir)) .* real(kr);
-        phi(iz, ir) = trapz(kr, kernel);
+if(Src == 'P')
+    % Ponit source
+    for ir = 1 : length(r)
+        r(ir)
+        for iz = 1 : length(z)
+            kernel = psi(iz, :) .* besselj(0, kr * r(ir)) .* real(kr);
+            phi(iz, ir) = trapz(kr, kernel);
+        end
     end
+    phi0 = exp(1i * k0) / 4 / pi;
+else    
+    %Line Source
+    for ir = 1 : length(r)
+        r(ir)
+        for iz = 1 : length(z)
+            kernel = psi(iz, :) .* exp(1i * kr * r(ir));
+            phi(iz, ir) = trapz(kr, kernel);
+        end
+    end
+    phi0 = 1i / 4 * besselh(0, 1, k0);
 end
 
-%Line Source
-
 %Sound pressure from displacement potential function
-phi0 = exp(1i * k0) / 4 / pi;
 tl   = - 20 * log10(abs(phi / phi0));
 
 % Plot(r, tl(73,:));

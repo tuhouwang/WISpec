@@ -1,8 +1,9 @@
-function [casename, Layers, Ns, kmax, M, freq, zs, dz, rmax, dr, ...
+function [casename, Src, Layers, Ns, kmax, M, freq, zs, dz, rmax, dr, ...
      tlmin, tlmax, dep, c, rho, alpha, Lb, ch, rhoh, alphah] = ReadEnvParameter(env_file)
 
     fid           = fopen(env_file);
     casename      = fgetl(fid);
+    Src           = fscanf(fid, '%s', 1);
     Layers        = fscanf(fid, '%d', 1);
     Ns            = fscanf(fid, '%d', Layers);   
     kmax          = fscanf(fid, '%f', 1);
@@ -47,8 +48,8 @@ function [casename, Layers, Ns, kmax, M, freq, zs, dz, rmax, dr, ...
         end
     end
     
-     Lb = fscanf(fid, '%s', 1);
-     if (Lb ~= 'V' && Lb ~= 'R' && Lb ~= 'A')
+    Lb = fscanf(fid, '%s', 1);
+    if (Lb ~= 'V' && Lb ~= 'R' && Lb ~= 'A')
         disp('Error! The lower boundary must be vaccum, rigid or halfspace!');
     end
     
@@ -76,7 +77,11 @@ function [casename, Layers, Ns, kmax, M, freq, zs, dz, rmax, dr, ...
     
     if (tlmin >= tlmax)
         error('tlmin must less than tlmax !');
-    end    
+    end   
+    
+    if (Src ~= 'P' && Lb ~= 'L')
+        disp('Error! The source must be point (P) or line (L)!');
+    end
 
     fclose(fid);
 
