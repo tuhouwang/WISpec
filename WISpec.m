@@ -36,6 +36,7 @@ toc;
 %Ponit source
 phi = zeros(length(z),length(r));
 for ir = 1 : length(r)
+    r(ir)
     for iz = 1 : length(z)
         kernel = psi(iz, :) .* besselj(0, kr * r(ir)) .* real(kr);
         phi(iz, ir) = trapz(kr, kernel);
