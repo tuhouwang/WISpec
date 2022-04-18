@@ -1,4 +1,4 @@
-function [r, k, kh] = ChebInitialization(Layers, freq, rmax, dr, c, alpha, ch, alphah)
+function [r, k, kh, w] = ChebInitialization(Layers, freq, rmax, dr, c, alpha, ch, alphah)
 
     w  = 2 * pi * freq;
     r  = dr : dr : rmax;
