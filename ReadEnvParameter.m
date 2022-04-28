@@ -27,22 +27,22 @@ function [casename, Src, Layers, Ns, kmax, M, freq, zs, dz, rmax, dr, ...
         if (i < Layers && interface(i) > 0.0 && ...
             interface(i) < interface(i+1) && nprofile(i) >= 2)
             Profile     = fscanf(fid, '%f %f', [4, nprofile(i)]);
-            dep(i)      = {Profile(1, 1:nprofile(i))};
-            c(i)        = {Profile(2, 1:nprofile(i))};
-            rho(i)      = {Profile(3, 1:nprofile(i))};
-            alpha(i)    = {Profile(4, 1:nprofile(i))};
+            dep(i)      = {Profile(1, 1:nprofile(i))'};
+            c(i)        = {Profile(2, 1:nprofile(i))'};
+            rho(i)      = {Profile(3, 1:nprofile(i))'};
+            alpha(i)    = {Profile(4, 1:nprofile(i))'};
         elseif(interface(i) > 0.0 && nprofile(i) >= 2)
             Profile     = fscanf(fid, '%f %f', [4, nprofile(i)]);
-            dep(i)      = {Profile(1, 1:nprofile(i))};
-            c(i)        = {Profile(2, 1:nprofile(i))};
-            rho(i)      = {Profile(3, 1:nprofile(i))};
-            alpha(i)    = {Profile(4, 1:nprofile(i))};
+            dep(i)      = {Profile(1, 1:nprofile(i))'};
+            c(i)        = {Profile(2, 1:nprofile(i))'};
+            rho(i)      = {Profile(3, 1:nprofile(i))'};
+            alpha(i)    = {Profile(4, 1:nprofile(i))'};
         elseif(i == 1)
             Profile     = fscanf(fid, '%f %f', [4, nprofile(i)]);
-            dep(i)      = {Profile(1)};
-            c(i)        = {Profile(2)};
-            rho(i)      = {Profile(3)};
-            alpha(i)    = {Profile(4)};
+            dep(i)      = {Profile(1)'};
+            c(i)        = {Profile(2)'};
+            rho(i)      = {Profile(3)'};
+            alpha(i)    = {Profile(4)'};
         else
             error('Error! h must greater than 0 and less than H !');
         end

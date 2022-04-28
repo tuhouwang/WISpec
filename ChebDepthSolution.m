@@ -24,7 +24,7 @@ function Vec = ChebDepthSolution(Lb, Ns, Layers, dep, k, rho, kh, rhoh, kr, R)
     n = 1;
     for i = 1 : Layers - 1
         %displacement potential function 
-        Pu = -2 / (dep{i}(end) - dep{i}(1)) * ((-1.0).^(0 : Ns(i))) * Dsave{i};
+        Pu = -2 / (dep{i}(end) - dep{i}(1)) * ((-1.0).^(0 : Ns(i)))  * Dsave{i};
         Pd =  2 / (dep{i+1}(end) - dep{i+1}(1)) * ones(1, Ns(i+1)+1) * Dsave{i+1};
         
         %sound pressure is continuous
@@ -39,8 +39,8 @@ function Vec = ChebDepthSolution(Lb, Ns, Layers, dep, k, rho, kh, rhoh, kr, R)
         U(sum(Ns-1)+2*i-1,n:n+Ns(i+1)-2  )   =  -rho{i+1}(1);
         U(sum(Ns-1)+2*i-1,sum(Ns-1)+2*i+1:sum(Ns-1)+2*i+2)   =  -rho{i+1}(1);
         %second interface boundary
-        U(sum(Ns-1)+2*i,  n:n+Ns(i+1)-2) = Pd(1 : Ns(i+1)-1);
-        U(sum(Ns-1)+2*i,  sum(Ns-1)+2*i+1:sum(Ns-1)+2*i+2) = Pd(Ns(i+1): Ns(i+1)+1);
+        U(sum(Ns-1)+2*i,  n:n+Ns(i+1)-2) = Pd(1:Ns(i+1)-1);
+        U(sum(Ns-1)+2*i,  sum(Ns-1)+2*i+1:sum(Ns-1)+2*i+2) = Pd(Ns(i+1):Ns(i+1)+1);
 
     end  
 

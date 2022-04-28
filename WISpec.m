@@ -4,7 +4,7 @@ clear
 tic;
 
 [casename, Src, Layers, Ns, kmax, M, freq, zs, dz, rmax, dr, tlmin, tlmax,...
- dep, c, rho, alpha, Lb, ch, rhoh, alphah] = ReadEnvParameter('input_line_pekeris.txt');
+ dep, c, rho, alpha, Lb, ch, rhoh, alphah] = ReadEnvParameter('input_bucker.txt');
 
 %Get the z and rho of the final resolution
 [z, rhoi] = FinalResolute(dep, dz, rho, Layers);
@@ -32,7 +32,7 @@ for m = 1 : M
 
 end
 
-% Plot(kr, psi(93,:));
+Plot(kr, psi(201,:));
 toc;
 %--------------------------Wavenumber Integration--------------------------
 phi = zeros(length(z),length(r));
@@ -61,10 +61,10 @@ end
 
 %Sound pressure from displacement potential function
 phi  = w ^ 2 * diag(rhoi) * phi;
-phi0 = w ^ 2 * rho{s}(end)* phi0 ;
+phi0 = w ^ 2 * rho{s}(end)* phi0;
 tl   = - 20 * log10(abs(phi / phi0));
 
-Plot(r, tl(145,:));
+% Plot(r, tl(201,:));
 Pcolor(r, z, tl, casename, tlmin, tlmax);
 
 toc;
