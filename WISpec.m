@@ -38,13 +38,13 @@ toc;
 if(Src == 'P')
     % Ponit source
     phi  = kmax * k0 / (M - 1) * psi * diag(kr) * besselj(0, kr.' * r); 
-    phi0 = exp(1i * k{s}(end)) / 4 / pi;
+    phi0 = 0.25 * exp(1i * k{s}(end)) / pi;
 else    
     % Line Source
 %     phi  = kmax * k0 / (M - 1) * psi * exp(1i * kr.' * r);
     phi  = 2 * kmax * k0 / (M - 1) * psi * cos(kr.' * r);
-    phi0 = 1i / 4 * besselh(0, 1, 1);
-%     phi0 = 1i / 4 * besselh(0, 1, k{s}(end));
+    phi0 = 0.25 * 1i * besselh(0, 1, 1);
+%     phi0 = 0.25 * 1i * besselh(0, 1, k{s}(end));
 end
 
 %Sound pressure from displacement potential function
