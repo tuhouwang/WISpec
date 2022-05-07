@@ -42,7 +42,7 @@ The "`input.txt`" file include:
 
 * `Layers` is the number of the layers of media; 
 
-* `Nl` is the number to truncated order of medium; Generally speaking, the
+* `Nl`s are the numbers to truncated order of medium; Generally speaking, the
   more complicated the shape of the sound speed profile, the more `Nl`s
   are needed to accurately fit.
 
