@@ -78,7 +78,7 @@ There is a table of environmental parameter: the units are depth(m), speed(m/s),
   boundary condition is perfectly free 'V', perfectly rigid 'R' or semi-infinite space 'A'), 
   The last line is the parameters for the semi-infinite space. 
 
-  <img src="img/schematic.png" style="zoom:25%;" />
+  <img src="img/Schematic.png" style="zoom:25%;" />
   
   Figure 1. Schematic of arbitrary horizontally stratified marine environment.
   
