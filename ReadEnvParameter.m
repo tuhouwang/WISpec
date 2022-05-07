@@ -1,11 +1,11 @@
-function [casename, Src, Layers, Ns, kmax, M, freq, zs, dz, rmax, dr, ...
+function [casename, Src, Layers, Nl, kmax, M, freq, zs, dz, rmax, dr, ...
      tlmin, tlmax, dep, c, rho, alpha, Lb, ch, rhoh, alphah] = ReadEnvParameter(env_file)
 
     fid           = fopen(env_file);
     casename      = fgetl(fid);
     Src           = fscanf(fid, '%s', 1);
     Layers        = fscanf(fid, '%d', 1);
-    Ns            = fscanf(fid, '%d', Layers);   
+    Nl            = fscanf(fid, '%d', Layers);   
     kmax          = fscanf(fid, '%f', 1);
     M             = fscanf(fid, '%d', 1);
     freq          = fscanf(fid, '%f', 1);

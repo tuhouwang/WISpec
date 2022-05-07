@@ -1,7 +1,7 @@
-function [c, rho, alpha] = ChebInterpolation(dep, c, rho, alpha, Layers, Ns)
+function [c, rho, alpha] = ChebInterpolation(dep, c, rho, alpha, Layers, Nl)
 
     for i = 1 : Layers
-        x = cos( (0 : Ns(i)) * pi / Ns(i) )';
+        x = cos( (0 : Nl(i)) * pi / Nl(i) )';
         z = ( ( dep{i}(1) + dep{i}(end) ) / ( dep{i}(end) - dep{i}(1) ) - x )...
                                             * ( dep{i}(end) - dep{i}(1) ) / 2.0;
 

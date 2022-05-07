@@ -3,16 +3,16 @@ clear
 % close all
 tic;
 
-[casename, Src, Layers, Ns, kmax, M, freq, zs, dz, rmax, dr, tlmin, tlmax,...
+[casename, Src, Layers, Nl, kmax, M, freq, zs, dz, rmax, dr, tlmin, tlmax,...
  dep, c, rho, alpha, Lb, ch, rhoh, alphah] = ReadEnvParameter('input_line_pekeris.txt');
 
 %Get the z and rho of the final resolution
 [z, rhoi] = FinalResolute(dep, dz, rho, Layers);
 
 %Add a virtual interface to the depth of the sound source
-[dep, c, rho, alpha, Layers, Ns, R, s] = VirtualInterface(dep, c, rho, alpha, zs, Layers, Ns);
+[dep, c, rho, alpha, Layers, Nl, R, s] = VirtualInterface(dep, c, rho, alpha, zs, Layers, Nl);
 
-[c, rho, alpha] = ChebInterpolation(dep, c, rho, alpha, Layers, Ns);
+[c, rho, alpha] = ChebInterpolation(dep, c, rho, alpha, Layers, Nl);
 
 [r, k, kh, w] = ChebInitialization(Layers, freq, rmax, dr, c, alpha, ch, alphah);
 
@@ -24,9 +24,9 @@ kr  = kr - 1i * eps;
 
 %------------------------------Depth equation------------------------------
 psi = zeros(length(z), M);
-parfor m = 1 : M
+for m = 1 : M
     m
-    Vec = ChebDepthSolution(Lb, Ns, Layers, dep, k, rho, kh, rhoh, kr(m), R);
+    Vec = ChebDepthSolution(Lb, Nl, Layers, dep, k, rho, kh, rhoh, kr(m), R);
 
     psi(:, m) = KernelFunc(Vec, dz, dep, Layers);
 

@@ -1,4 +1,4 @@
-function [dep, c, rho, alpha, Layers, Ns, R, s] = VirtualInterface(dep, c, rho, alpha, zs, Layers, Ns)
+function [dep, c, rho, alpha, Layers, Nl, R, s] = VirtualInterface(dep, c, rho, alpha, zs, Layers, Nl)
 
     for s = 1 : Layers
          if(zs > dep{s}(1) && zs < dep{s}(end) )  
@@ -54,9 +54,9 @@ function [dep, c, rho, alpha, Layers, Ns, R, s] = VirtualInterface(dep, c, rho, 
     rho    = rho1;
     alpha  = alpha1;
     Layers = Layers + 1;
-    Ns     = [Ns(1:s); Ns(s); Ns(s+1:end)];
+    Nl     = [Nl(1:s); Nl(s); Nl(s+1:end)];
     
-    R     = zeros(sum(Ns+1), 1);
-    R(sum(Ns-1)+2*s) = 0.5 / pi;
+    R     = zeros(sum(Nl+1), 1);
+    R(sum(Nl-1)+2*s) = 0.5 / pi;
 
 end
