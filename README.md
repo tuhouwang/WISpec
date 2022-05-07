@@ -62,7 +62,7 @@ The "`input.txt`" file include:
   respectively, which used to determine the color range of the output
   transmission loss graph, `tlmin` must less than `tlmax`.
 
-* `h` are the bathmetries of ocean of ocean, unit: m. 
+* `h`s are the bathmetries of ocean of ocean, unit: m. 
 
 * `n`s are the amount of environmental profile data in medium columns.
 
@@ -72,15 +72,14 @@ There is a table of environmental parameter: the units are depth(m), speed(m/s),
   density usually has a discontinuity. The first entry `dep(1)=0` is the
   free surface. The last entry `dep(n)=H` determines the total thickness
   of the waveguide. 
-
  
 *  `Lowerboundary` (User used to specify whether the seabottom
   boundary condition is perfectly free 'V', perfectly rigid 'R' or semi-infinite space 'A'), 
   The last line is the parameters for the semi-infinite space. 
 
-  <img src="img/Schematic.png" style="zoom:25%;" />
+<img src="img/Schematic.png" style="zoom:25%;" />
   
-  Figure 1. Schematic of arbitrary horizontally stratified marine environment.
+Figure 1. Schematic of arbitrary horizontally stratified marine environment.
   
   The plots resulting from the above dialog are as
   follows:
