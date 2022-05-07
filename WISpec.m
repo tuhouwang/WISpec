@@ -4,7 +4,7 @@ clear
 tic;
 
 [casename, Src, Layers, Nl, kmax, M, freq, zs, dz, rmax, dr, tlmin, tlmax,...
- dep, c, rho, alpha, Lb, ch, rhoh, alphah] = ReadEnvParameter('input_line_pekeris.txt');
+ dep, c, rho, alpha, Lb, ch, rhoh, alphah] = ReadEnvParameter('input.txt');
 
 %Get the z and rho of the final resolution
 [z, rhoi] = FinalResolute(dep, dz, rho, Layers);
