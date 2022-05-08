@@ -33,6 +33,7 @@ for m = 1 : M
 end
 
 % Plot(kr, psi(201,:));
+% Pcolor(real(kr), z, abs(psi), casename, 0, 20);colormap(jet);
 toc;
 %--------------------------Wavenumber Integration--------------------------
 if(Src == 'P')
