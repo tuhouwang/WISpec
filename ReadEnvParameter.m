@@ -79,7 +79,7 @@ function [casename, Src, Layers, Nl, kmax, M, freq, zs, dz, rmax, dr, ...
         error('tlmin must less than tlmax !');
     end   
     
-    if (Src ~= 'P' && Lb ~= 'L')
+    if (Src ~= 'P' && Src ~= 'L')
         disp('Error! The source must be point (P) or line (L)!');
     end
 
