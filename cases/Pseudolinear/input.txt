@@ -1,7 +1,7 @@
 Pseudo linear waveguide
 P
 1
-200
+20
 2
 4096
 50

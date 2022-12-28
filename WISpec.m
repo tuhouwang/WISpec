@@ -2,16 +2,12 @@ clc
 clear
 % close all
 tic;
-% error=zeros(196,1);
-% for g = 5:200
-%     g
+
 [casename, Src, Layers, Nl, kmax, M, freq, zs, dz, rmax, dr, tlmin, tlmax,...
  dep, c, rho, alpha, Lb, ch, rhoh, alphah] = ReadEnvParameter('input.txt');
 
 %Get the z and rho of the final resolution
 [z, rhoi] = FinalResolute(dep, dz, rho, Layers);
-
-% Nl(1:end)=g;
 
 %Add a virtual interface to the depth of the sound source
 [dep, c, rho, alpha, Layers, Nl, R, s] = VirtualInterface(dep, c, rho, alpha, zs, Layers, Nl);  
@@ -25,20 +21,23 @@ k0  = max(real(k{1}));
 kr  = linspace(0, kmax * k0, M);
 eps = 1.5 * kmax * k0 / pi / (M - 1) / log10(exp(1.0));
 kr  = kr - 1i * eps;
-
 %------------------------------Depth equation------------------------------
-psi = zeros(length(z), M);
+Vec  = cell(Layers, M);
+Vec2 = cell(Layers, 1);
 for m = 1 : M
 %     m
-    Vec = ChebDepthSolution(Lb, Nl, Layers, dep, k, rho, kh, rhoh, kr(m), R);
-
-    psi(:, m) = KernelFunc(Vec, dz, dep, Layers);
-
+    Vec(:, m) = ChebDepthSolution(Lb, Nl, Layers, dep, k, rho, kh, rhoh, kr(m), R);
 end
 
+for i = 1 : Layers
+    Vec2(i) = {cell2mat(Vec(i,:))};
+end
+
+psi = KernelFunc(Vec2, dz, dep, Layers);
+
 % Plot(kr, psi(201,:));
-% Pcolor(real(kr), z, abs(psi), casename, 0, 20);colormap(jet);
-% toc;
+% Pcolor(real(kr), z, abs(psi), casename, 0, 5);colormap(jet);
+toc;
 %--------------------------Wavenumber Integration--------------------------
 if(Src == 'P')
     % Ponit source
@@ -55,14 +54,6 @@ end
 phi  = w ^ 2 * diag(rhoi)  * phi;
 phi0 = w ^ 2 * rho{s}(end) * phi0;
 tl   = - 20  * log10(abs(phi / phi0));
-
-% load('G:\Wavenumber\Figure_test\Pseudolinear\nmct.mat');
-% tl = abs(tl-tla);
-% 
-% tl = tl(2:end-1,:);
-% error(g-4) = sum(tl(:))./(length(r)*(length(z)-2));
-
-% Plot_error(r, tl(201,:));
 Pcolor(r, z, tl, casename, tlmin, tlmax);
-% end
+
 toc;

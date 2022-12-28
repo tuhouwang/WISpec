@@ -14,7 +14,7 @@ function psi = KernelFunc(Vec, dz, dep, Layers)
         elseif(zm(end) == zi(1))   
            zm  = [zm, zi(2:end)];
            p   = InvChebTrans(Vec{i}, xi);
-           psi = [psi; p(2:end)];             
+           psi = [psi; p(2:end,:)];             
         else
            zm  = [zm, zi];
            psi = [psi; InvChebTrans(Vec{i}, xi)];          
