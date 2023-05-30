@@ -1,11 +1,15 @@
-**`WISpec_readme`, May. 7, 2022, Houwang Tu, National University of Defense Technology**
+**`WISpec_readme`, May. 7, 2022, Houwang Tu**
+
+**Ph.D candidate of National University of Defense Technology**
+
+<tuhouwang@nudt.edu.cn>
 
 The program `WISpec.m` computes the acoustic field in arbitrary horizontally 
-stratified media (as shown in Fig.1) using the Chebyshev-Tau spectral method.
-The method is described in the article (H. Tu, Y. Wang, W. Liu et al., A 
-Wavenumber Integration Model of Underwater Acoustic Propagation in Arbitrary 
-Horizontally Stratified Media Based on Spectral Method, 
-https://doi.org/10.1016/j.jsv.2020.115784).
+stratified media (as shown in Figure 1) using the Chebyshev--Tau spectral method.
+The method is described in the article (H. Tu, Y. Wang, W. Liu et al., A spectral 
+method for the depth-separated solution of a wavenumber integration model 
+for horizontally stratified fluid acoustic waveguides [J], _Physics of Fluids_, 2023(35), 
+057127, https://doi.org/10.1063/5.0150221).
 
 The '`ReadEnvParameter`' function is used to read "`input.txt`" file. 
 User can make changes to "`input.txt`" for the desired simulation. 
@@ -42,7 +46,7 @@ The "`input.txt`" file include:
 
 * `Layers` is the number of the layers of media; 
 
-* `Nl`s are the numbers to truncated order of medium; Generally speaking, the
+* `Nl`s are the numbers to truncated order of media; Generally speaking, the
   more complicated the shape of the sound speed profile, the more `Nl`s
   are needed to accurately fit.
 
@@ -52,7 +56,7 @@ The "`input.txt`" file include:
 
 * `zs` (the depth of source, m), 
 
-* `dz` (discrete step size in depth direction, m),
+* `dz` (step size in depth direction, m),
 
 * `rmax` (the maximum range of horizontal direction, m), 
 
@@ -66,7 +70,7 @@ The "`input.txt`" file include:
 
 * `n`s are the amount of environmental profile data in medium columns.
 
-There is a table of environmental parameter: the units are depth(m), speed(m/s),
+  There is a table of environmental parameter: the units are depth(m), speed(m/s),
   density(g/cm$^3$) and attenuation (dB/wavelength), with `nw`
   points in each layer. It is necessary that `depw(n)=depb(1)` where the
   density usually has a discontinuity. The first entry `dep(1)=0` is the
