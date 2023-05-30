@@ -42,7 +42,7 @@ The "`input.txt`" file include:
 
 *  `casename` is the name of current example;
 
-*  `Src' is the type of sound source, P denotes point source, L denotes line source;
+*  `Src` is the type of sound source, P denotes point source, L denotes line source;
 
 * `Layers` is the number of the layers of media; 
 
