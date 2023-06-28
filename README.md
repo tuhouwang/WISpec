@@ -5,11 +5,12 @@
 <tuhouwang@nudt.edu.cn>
 
 The program `WISpec.m` computes the acoustic field in arbitrary horizontally 
-stratified media (as shown in Figure 1) using the Chebyshev--Tau spectral method.
-The method is described in the article (H. Tu, Y. Wang, W. Liu et al., A spectral 
-method for the depth-separated solution of a wavenumber integration model 
-for horizontally stratified fluid acoustic waveguides [J], _Physics of Fluids_, 2023(35), 
-057127, https://doi.org/10.1063/5.0150221).
+stratified media (as shown in Figure 1) using the wavenumber integration model 
+discretized by the Chebyshev--Tau spectral method. The spectral algorithm is 
+described in the article (H. Tu, Y. Wang, W. Liu et al., A spectral method for 
+the depth-separated solution of a wavenumber integration model for horizontally 
+stratified fluid acoustic waveguides [J], _Physics of Fluids_, 2023(35), 057127, 
+https://doi.org/10.1063/5.0150221).
 
 The '`ReadEnvParameter`' function is used to read "`input.txt`" file. 
 User can make changes to "`input.txt`" for the desired simulation. 
@@ -40,9 +41,9 @@ A                                 ! Lowerboundary (rigid/free/halfspace lower bo
 
 The "`input.txt`" file include:
 
-*  `casename` is the name of current example;
+* `casename` is the name of current example;
 
-*  `Src` is the type of sound source, P denotes point source, L denotes line source;
+* `Src` is the type of sound source, P denotes point source, L denotes line source;
 
 * `Layers` is the number of the layers of media; 
 
@@ -77,7 +78,7 @@ The "`input.txt`" file include:
   free surface. The last entry `dep(n)=H` determines the total thickness
   of the waveguide. 
  
-*  `Lowerboundary` (User used to specify whether the seabottom
+* `Lowerboundary` (User used to specify whether the seabottom
   boundary condition is perfectly free 'V', perfectly rigid 'R' or semi-infinite space 'A'), 
   The last line is the parameters for the semi-infinite space. 
 
