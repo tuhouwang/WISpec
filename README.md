@@ -1,6 +1,6 @@
-**`WISpec_readme`, May. 7, 2022, Houwang Tu**
+**`WISpec_readme`, Feb. 20, 2025, Houwang Tu**
 
-**Ph.D candidate of National University of Defense Technology**
+**Assistant Professor of National University of Defense Technology**
 
 <tuhouwang@nudt.edu.cn>
 
