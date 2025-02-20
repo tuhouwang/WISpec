@@ -1,15 +1,15 @@
-function [casename, Src, Layers, Nl, kmax, M, freq, zs, dz, rmax, dr, ...
+function [casename, Src, freq, zs, Layers, Nl, kmax, M, dz, rmax, dr, ...
      tlmin, tlmax, dep, c, rho, alpha, Lb, ch, rhoh, alphah] = ReadEnvParameter(env_file)
 
     fid           = fopen(env_file);
     casename      = fgetl(fid);
     Src           = fscanf(fid, '%s', 1);
+    freq          = fscanf(fid, '%f', 1);
+    zs            = fscanf(fid, '%f', 1);   
     Layers        = fscanf(fid, '%d', 1);
     Nl            = fscanf(fid, '%d', Layers);   
     kmax          = fscanf(fid, '%f', 1);
     M             = fscanf(fid, '%d', 1);
-    freq          = fscanf(fid, '%f', 1);
-    zs            = fscanf(fid, '%f', 1);
     dz            = fscanf(fid, '%f', 1);
     rmax          = fscanf(fid, '%f', 1);
     dr            = fscanf(fid, '%f', 1);
@@ -50,7 +50,7 @@ function [casename, Src, Layers, Nl, kmax, M, freq, zs, dz, rmax, dr, ...
     
     Lb = fscanf(fid, '%s', 1);
     if (Lb ~= 'V' && Lb ~= 'R' && Lb ~= 'A')
-        disp('Error! The lower boundary must be vaccum, rigid or halfspace!');
+        error('Error! The lower boundary must be vaccum, rigid or halfspace!');
     end
     
     if (Lb == 'A')

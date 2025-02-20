@@ -30,7 +30,7 @@ clear
 close all
 tic;
 
-[casename, Src, Layers, Nl, kmax, M, freq, zs, dz, rmax, dr, tlmin, tlmax,...
+[casename, Src, freq, zs, Layers, Nl, kmax, M, dz, rmax, dr, tlmin, tlmax,...
  dep, c, rho, alpha, Lb, ch, rhoh, alphah] = ReadEnvParameter('input.txt');
 
 % Get the z and rho of the final resolution.
@@ -70,7 +70,7 @@ psi = KernelFunc(Vec2, dz, dep, Layers);
 toc;
 %--------------------------Wavenumber Integration--------------------------
 if(Src == 'P')
-    % Ponit source
+    % Point source
     phi  = kmax * k0 / (M - 1) * psi * diag(kr) * besselj(0, kr.' * r); 
     phi0 = 0.25 * exp(1i * k{s}(end)) / pi;
 else    

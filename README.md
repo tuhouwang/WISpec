@@ -20,11 +20,12 @@ calculation. See the following example:
 ```
 Example1                          ! casename
 P                                 ! Src, type of sound source
+20.0                              ! freq (frequency of source)
+36.0                              ! zs (depth of source)
 1                                 ! Layers of media
 20                                ! Nl (truncation order of layers, Layers rows)
 2                                 ! kmax (maximum integral interval)
-20.0                              ! freq (frequency of source)
-36.0                              ! zs (depth of source)
+2048                              ! M (number of wavenumber sampling points on the integral interval)
 0.25                              ! dz (discrete length in depth direction)
 3000.0                            ! rmax (receiver ranges(m))
 1                                 ! dr (discrete length in horizontal direction)
@@ -35,7 +36,7 @@ P                                 ! Src, type of sound source
     0.0 1500.0  1.0   0.0         ! dep c rho alpha
   100.0 1500.0  1.0   0.0
 A                                 ! Lowerboundary (rigid/free/halfspace lower boundary condition)
-  100.0 2000.0  2.0   2.0         ! sound speed, density and attenuation of semi-infinite space
+        2000.0  2.0   2.0         ! sound speed, density and attenuation of acoustic half-space
 
 ```
 
@@ -45,17 +46,19 @@ The "`input.txt`" file include:
 
 * `Src` is the type of sound source, P denotes point source, L denotes line source;
 
+* `freq` (frequency of sound source, Hz), 
+
+* `zs` (the depth of source, m), 
+
 * `Layers` is the number of the layers of media; 
 
 * `Nl`s are the numbers to truncated order of media. Generally speaking, the
   more complicated the shape of the sound speed profile, the more `Nl`s
   are needed to accurately fit.
 
-* `kmax`, the integral interval is [0, kmax]. 
+* `kmax`, the integral interval is [0, kmax]\*k0. 
 
-* `freq` (frequency of sound source, Hz), 
-
-* `zs` (the depth of source, m), 
+* `M`, the number of wavenumber sampling points in [0, kmax]\*k0. 
 
 * `dz` (step size in depth direction, m),
 

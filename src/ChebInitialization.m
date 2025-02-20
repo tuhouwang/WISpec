@@ -1,7 +1,7 @@
 function [r, k, kh, w] = ChebInitialization(Layers, freq, rmax, dr, c, alpha, ch, alphah)
 
     w  = 2 * pi * freq;
-    r  = dr : dr : rmax;
+    r  = 0 : dr : rmax;
     
     k = cell(Layers,1);  
     for i = 1 : Layers
