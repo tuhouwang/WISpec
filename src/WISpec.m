@@ -69,15 +69,17 @@ psi = KernelFunc(Vec2, dz, dep, Layers);
 
 toc;
 %--------------------------Wavenumber Integration--------------------------
-if(Src == 'P')
+if strcmp(Src, 'P')
     % Point source
-    phi  = kmax * k0 / (M - 1) * psi * diag(kr) * besselj(0, kr.' * r); 
+    K   = besselj(0, kr.' * r);
+    phi = kmax * k0 / (M - 1) * psi * (kr(:) .* K);
     phi0 = 0.25 * exp(1i * k{s}(end)) / pi;
-else    
+else
     % Line Source
-    phi  = 2 * kmax * k0 / (M - 1) * psi * cos(kr.' * r);
+    K   = cos(kr.' * r);
+    phi = 2 * kmax * k0 / (M - 1) * psi * (kr(:) .* K);
     phi0 = 0.25 * 1i * besselh(0, 1, 1);
-%     phi0 = 0.25 * 1i * besselh(0, 1, k{s}(end));
+    % phi0 = 0.25 * 1i * besselh(0, 1, k{s}(end));
 end
 
 % Sound pressure from displacement potential function.
